@@ -4,8 +4,16 @@
 import SwiftUI
 
 struct Hawk {
-    public func checkIsNeedForceUpdate(level: UpdateLevel) async -> Bool {
+    public func checkIsNeedForceUpdate(
+        level: UpdateLevel,
+        localVersion: Version? = nil,
+        storeVersion: Version? = nil
+    ) async -> Bool {
         do {
+            if let localVersion, let storeVersion {
+                return needsForceUpdate(local: localVersion, store: storeVersion, level: level)
+            }
+
             guard let appId = Bundle.main.object(forInfoDictionaryKey: "AppStoreID") as? String,
                   let url = URL(string: "https://itunes.apple.com/jp/lookup?id=\(appId)") else {
                 return false
@@ -29,7 +37,6 @@ struct Hawk {
             let localVersion = Version(appVersionString)
 
             return needsForceUpdate(local: localVersion, store: storeVersion, level: level)
-
         } catch {
             return false
         }
@@ -45,8 +52,10 @@ struct Hawk {
             return storeVersion.major > localVersion.major
 
         case .minor:
-            if storeVersion.major > localVersion.major { return true }
-            if storeVersion.major == localVersion.major &&
+            if storeVersion.major > localVersion.major {
+                return true
+            }
+            if storeVersion.major == localVersion.major,
                 storeVersion.minor > localVersion.minor {
                 return true
             }
