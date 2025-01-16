@@ -31,15 +31,15 @@ struct ForceUpdateViewModifier: ViewModifier {
                     showUpdateAlert = true
                 }
             }
-            .alert("新しいバージョンが利用可能です", isPresented: $showUpdateAlert) {
-                Button("今すぐアップデート") {
+            .alert(String(localized: "Dialog.Title", bundle: .module), isPresented: $showUpdateAlert) {
+                Button(String(localized: "Dialog.ButtonTitle", bundle: .module)) {
                     if let appId = Bundle.main.object(forInfoDictionaryKey: "AppStoreID") as? String,
                        let url = URL(string: "https://apps.apple.com/jp/app/id\(appId)") {
                         UIApplication.shared.open(url)
                     }
                 }
             } message: {
-                Text("最新バージョンへアップデートをお願いします。")
+                Text(String(localized: "Dialog.Message", bundle: .module))
             }
     }
 }

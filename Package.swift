@@ -5,6 +5,7 @@ import PackageDescription
 
 let package = Package(
     name: "Hawk",
+    defaultLocalization: "ja",
     platforms: [
         .iOS(.v15)
     ],
