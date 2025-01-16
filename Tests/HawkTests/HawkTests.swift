@@ -180,9 +180,9 @@ final class AppVersionCheckerTest: XCTestCase {
      * - Act #1: Call the function with the `major` level.
      * - Assert #1: Verify that the result is false.
      *
-     * - Arrange #2: localVersionMock2 = "1.0.0", storeVersionMock2 = "2.0.0".
+     * - Arrange #2: localVersionMock2 = "1.0.0", storeVersionMock2 = "1.4.0".
      * - Act #2: Call the function with the `major` level.
-     * - Assert #2: Verify that the result is true.
+     * - Assert #2: Verify that the result is false.
      */
     func testNeedsForceUpdate_major_returnFalse() async {
         // Arrange
@@ -201,7 +201,7 @@ final class AppVersionCheckerTest: XCTestCase {
 
         // Arrange
         let localVersionMock2 = Version("1.0.0")
-        let storeVersionMock2 = Version("2.0.0")
+        let storeVersionMock2 = Version("1.4.0")
 
         // Act
         let result2 = await Hawk.checkIsNeedForceUpdate(
@@ -211,6 +211,6 @@ final class AppVersionCheckerTest: XCTestCase {
         )
 
         // Assert
-        XCTAssertTrue(result2)
+        XCTAssertFalse(result2)
     }
 }
