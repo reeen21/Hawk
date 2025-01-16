@@ -1,19 +1,35 @@
-// The Swift Programming Language
-// https://docs.swift.org/swift-book
-
 import SwiftUI
 
+/**
+ * A service that manages version checks against the App Store, determining whether
+ * a force update is necessary based on a given update level.
+ */
 struct Hawk {
+
+    /**
+     * Checks if a force update is needed by comparing the local app version to the
+     * App Store version or the versions provided explicitly.
+     *
+     * - Parameters:
+     *   - level: The minimum update level (major, minor, or patch).
+     *   - localVersion: An optional local version for testing or overriding. If `nil`,
+     *                   the app's `CFBundleShortVersionString` will be used.
+     *   - storeVersion: An optional store version for testing or overriding. If `nil`,
+     *                   it will be fetched from the App Store API.
+     * - Returns: `true` if a force update is needed, otherwise `false`.
+     */
     public func checkIsNeedForceUpdate(
         level: UpdateLevel,
         localVersion: Version? = nil,
         storeVersion: Version? = nil
     ) async -> Bool {
         do {
+            // If localVersion and storeVersion are provided, compare directly:
             if let localVersion, let storeVersion {
                 return needsForceUpdate(local: localVersion, store: storeVersion, level: level)
             }
 
+            // Otherwise, fetch the store version from the App Store:
             guard let appId = Bundle.main.object(forInfoDictionaryKey: "AppStoreID") as? String,
                   let url = URL(string: "https://itunes.apple.com/jp/lookup?id=\(appId)") else {
                 return false
@@ -42,6 +58,16 @@ struct Hawk {
         }
     }
 
+    /**
+     * Compares the local and store versions based on the specified update level.
+     *
+     * - Parameters:
+     *   - localVersion: The local app version.
+     *   - storeVersion: The app version in the App Store.
+     *   - level: The threshold for forcing an update (major, minor, or patch).
+     * - Returns: `true` if the store version is high enough above the local version
+     *            to warrant an update, otherwise `false`.
+     */
     private func needsForceUpdate(
         local localVersion: Version,
         store storeVersion: Version,
@@ -56,7 +82,7 @@ struct Hawk {
                 return true
             }
             if storeVersion.major == localVersion.major,
-                storeVersion.minor > localVersion.minor {
+               storeVersion.minor > localVersion.minor {
                 return true
             }
             return false
