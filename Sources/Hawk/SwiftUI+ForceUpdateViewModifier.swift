@@ -54,7 +54,7 @@ public extension View {
      * - Parameter level: The threshold for determining a required update (default is `.minor`).
      * - Returns: A view modified to check for a force update.
      */
-    func forceUpdateCheck(level: UpdateLevel = .minor) -> some View {
+    func showForceUpdateDialogIfNeeded(level: UpdateLevel = .minor) -> some View {
         modifier(ForceUpdateViewModifier(updateLevel: level))
     }
 }

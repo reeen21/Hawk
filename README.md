@@ -68,7 +68,7 @@ import Hawk
 struct ContentView: View {
     var body: some View {
         Text("Hello, World!")
-            .forceUpdateCheck(level: .major)
+            .showForceUpdateDialogIfNeeded(level: .major)
     }
 }
 ```
