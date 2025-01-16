@@ -20,8 +20,8 @@ struct Hawk {
      */
     static func checkIsNeedForceUpdate(
         level: UpdateLevel,
-        localVersion: Version? = nil,
-        storeVersion: Version? = nil
+        localVersion: String? = nil,
+        storeVersion: String? = nil
     ) async -> Bool {
         do {
             // If localVersion and storeVersion are provided, compare directly:
@@ -49,10 +49,7 @@ struct Hawk {
                 return false
             }
 
-            let storeVersion = Version(storeVersionString)
-            let localVersion = Version(appVersionString)
-
-            return needsForceUpdate(local: localVersion, store: storeVersion, level: level)
+            return needsForceUpdate(local: appVersionString, store: storeVersionString, level: level)
         } catch {
             return false
         }
@@ -69,10 +66,12 @@ struct Hawk {
      *            to warrant an update, otherwise `false`.
      */
     private static func needsForceUpdate(
-        local localVersion: Version,
-        store storeVersion: Version,
+        local localVersionString: String,
+        store storeVersionString: String,
         level: UpdateLevel
     ) -> Bool {
+        let storeVersion = Version(storeVersionString)
+        let localVersion = Version(localVersionString)
         switch level {
         case .major:
             return storeVersion.major > localVersion.major
@@ -88,7 +87,7 @@ struct Hawk {
             return false
 
         case .patch:
-            return storeVersion > localVersion
+            return storeVersionString.compare(localVersionString) == .orderedDescending
         }
     }
 }

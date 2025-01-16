@@ -8,13 +8,13 @@ final class AppVersionCheckerTest: XCTestCase {
      *
      * AAA Steps:
      * - Arrange: Prepare equal versions for local and store.
-     * - Act: Call the function with the `patch` level.
+     * - Act: Call the function with all level.
      * - Assert: Verify that the result is false.
      */
     func testNeedsForceUpdate_sameVersion_returnFalse() async {
         // Arrange
-        let localVersionMock = Version("1.0.0")
-        let storeVersionMock = Version("1.0.0")
+        let localVersionMock = "1.0.0"
+        let storeVersionMock = "1.0.0"
 
         // Act
         let result = await Hawk.checkIsNeedForceUpdate(
@@ -25,114 +25,10 @@ final class AppVersionCheckerTest: XCTestCase {
 
         // Assert
         XCTAssertFalse(result)
-    }
-
-    /**
-     * This test checks if the `checkIsNeedForceUpdate` function returns true
-     * when the store version is higher by a patch level than the local version.
-     *
-     * AAA Steps:
-     * - Arrange: Prepare localVersionMock = "1.0.0" and storeVersionMock = "1.0.1".
-     * - Act: Call the function with the `patch` level.
-     * - Assert: Verify that the result is true.
-     */
-    func testNeedsForceUpdate_patch_returnTrue() async {
-        // Arrange
-        let localVersionMock = Version("1.0.0")
-        let storeVersionMock = Version("1.0.1")
-
-        // Act
-        let result = await Hawk.checkIsNeedForceUpdate(
-            level: .patch,
-            localVersion: localVersionMock,
-            storeVersion: storeVersionMock
-        )
-
-        // Assert
-        XCTAssertTrue(result)
-    }
-
-    /**
-     * This test checks if the `checkIsNeedForceUpdate` function returns false
-     * when the local version is higher by a patch level than the store version.
-     *
-     * AAA Steps:
-     * - Arrange: Prepare localVersionMock = "1.0.2" and storeVersionMock = "1.0.0".
-     * - Act: Call the function with the `patch` level.
-     * - Assert: Verify that the result is false.
-     */
-    func testNeedsForceUpdate_patch_returnFalse() async {
-        // Arrange
-        let localVersionMock = Version("1.0.2")
-        let storeVersionMock = Version("1.0.0")
-
-        // Act
-        let result = await Hawk.checkIsNeedForceUpdate(
-            level: .patch,
-            localVersion: localVersionMock,
-            storeVersion: storeVersionMock
-        )
-
-        // Assert
-        XCTAssertFalse(result)
-    }
-
-    /**
-     * This test checks if the `checkIsNeedForceUpdate` function returns true
-     * when the store version is higher by a minor level than the local version.
-     *
-     * AAA Steps:
-     * - Arrange: Prepare localVersionMock = "1.0.0" and storeVersionMock = "1.2.0".
-     * - Act: Call the function with the `minor` level.
-     * - Assert: Verify that the result is true.
-     */
-    func testNeedsForceUpdate_minor_returnTrue() async {
-        // Arrange
-        let localVersionMock = Version("1.0.0")
-        let storeVersionMock = Version("1.2.0")
-
-        // Act
-        let result = await Hawk.checkIsNeedForceUpdate(
-            level: .minor,
-            localVersion: localVersionMock,
-            storeVersion: storeVersionMock
-        )
-
-        // Assert
-        XCTAssertTrue(result)
-    }
-
-    /**
-     * This test checks if the `checkIsNeedForceUpdate` function returns false
-     * when the local version is not lower by a minor level than the store version.
-     *
-     * AAA Steps:
-     * - Arrange #1: localVersionMock = "1.0.3", storeVersionMock = "1.0.0".
-     * - Act #1: Call the function with the `minor` level.
-     * - Assert #1: Verify that the result is false.
-     *
-     * - Arrange #2: localVersionMock2 = "1.2.0", storeVersionMock2 = "1.0.0".
-     * - Act #2: Call the function with the `minor` level.
-     * - Assert #2: Verify that the result is false.
-     */
-    func testNeedsForceUpdate_minor_returnFalse() async {
-        // Arrange
-        let localVersionMock = Version("1.0.3")
-        let storeVersionMock = Version("1.0.0")
-
-        // Act
-        let result = await Hawk.checkIsNeedForceUpdate(
-            level: .minor,
-            localVersion: localVersionMock,
-            storeVersion: storeVersionMock
-        )
-
-        // Assert
-        XCTAssertFalse(result)
 
         // Arrange
-        let localVersionMock2 = Version("1.2.0")
-        let storeVersionMock2 = Version("1.0.0")
+        let localVersionMock2 = "1.1.0"
+        let storeVersionMock2 = "1.1.0"
 
         // Act
         let result2 = await Hawk.checkIsNeedForceUpdate(
@@ -143,6 +39,88 @@ final class AppVersionCheckerTest: XCTestCase {
 
         // Assert
         XCTAssertFalse(result2)
+
+        // Arrange
+        let localVersionMock3 = "1.1.0"
+        let storeVersionMock3 = "1.1.0"
+
+        // Act
+        let result3 = await Hawk.checkIsNeedForceUpdate(
+            level: .major,
+            localVersion: localVersionMock3,
+            storeVersion: storeVersionMock3
+        )
+
+        // Assert
+        XCTAssertFalse(result3)
+    }
+
+    /**
+     * This test checks if the `checkIsNeedForceUpdate` function returns true
+     * when the store version is higher by a minor level than the local version.
+     *
+     * AAA Steps:
+     * - Arrange: Prepare localVersionMock = "1.0.0" and storeVersionMock = "1.2.0".
+     * - Act: Call the function with the `minor` level.
+     * - Assert: Verify that the result is true.
+     *
+     * - Arrange #2: localVersionMock2 = "1.4.0", storeVersionMock2 = "2.0.0".
+     * - Act #2: Call the function with the `minor` level.
+     * - Assert #2: Verify that the result is false.
+     */
+    func testNeedsForceUpdate_minor_returnTrue() async {
+        // Arrange
+        let localVersionMock = "1.0.0"
+        let storeVersionMock = "1.2.0"
+
+        // Act
+        let result = await Hawk.checkIsNeedForceUpdate(
+            level: .minor,
+            localVersion: localVersionMock,
+            storeVersion: storeVersionMock
+        )
+
+        // Assert
+        XCTAssertTrue(result)
+
+        // Arrange
+        let localVersionMock2 = "1.4.0"
+        let storeVersionMock2 = "2.0.0"
+
+        // Act
+        let result2 = await Hawk.checkIsNeedForceUpdate(
+            level: .minor,
+            localVersion: localVersionMock2,
+            storeVersion: storeVersionMock2
+        )
+
+        // Assert
+        XCTAssertTrue(result2)
+    }
+
+    /**
+     * This test checks if the `checkIsNeedForceUpdate` function returns false
+     * when the local version is not lower by a minor level than the store version.
+     *
+     * AAA Steps:
+     * - Arrange #1: localVersionMock = "1.0.3", storeVersionMock = "1.0.0".
+     * - Act #1: Call the function with the `minor` level.
+     * - Assert #1: Verify that the result is false.
+     */
+    func testNeedsForceUpdate_minor_returnFalse() async {
+        // Arrange
+        let localVersionMock = "1.0.3"
+        let storeVersionMock = "1.0.0"
+
+        // Act
+        let result = await Hawk.checkIsNeedForceUpdate(
+            level: .minor,
+            localVersion: localVersionMock,
+            storeVersion: storeVersionMock
+        )
+
+        // Assert
+        XCTAssertFalse(result)
     }
 
     /**
@@ -156,8 +134,8 @@ final class AppVersionCheckerTest: XCTestCase {
      */
     func testNeedsForceUpdate_major_returnTrue() async {
         // Arrange
-        let localVersionMock = Version("1.0.0")
-        let storeVersionMock = Version("2.0.0")
+        let localVersionMock = "1.0.0"
+        let storeVersionMock = "2.0.0"
 
         // Act
         let result = await Hawk.checkIsNeedForceUpdate(
@@ -186,8 +164,8 @@ final class AppVersionCheckerTest: XCTestCase {
      */
     func testNeedsForceUpdate_major_returnFalse() async {
         // Arrange
-        let localVersionMock = Version("2.0.0")
-        let storeVersionMock = Version("1.0.0")
+        let localVersionMock = "2.0.0"
+        let storeVersionMock = "1.0.0"
 
         // Act
         let result = await Hawk.checkIsNeedForceUpdate(
@@ -200,8 +178,8 @@ final class AppVersionCheckerTest: XCTestCase {
         XCTAssertFalse(result)
 
         // Arrange
-        let localVersionMock2 = Version("1.0.0")
-        let storeVersionMock2 = Version("1.4.0")
+        let localVersionMock2 = "1.0.0"
+        let storeVersionMock2 = "1.4.0"
 
         // Act
         let result2 = await Hawk.checkIsNeedForceUpdate(
