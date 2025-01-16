@@ -26,7 +26,7 @@ struct ForceUpdateViewModifier: ViewModifier {
     func body(content: Content) -> some View {
         content
             .task {
-                let needUpdate = await Hawk().checkIsNeedForceUpdate(level: updateLevel)
+                let needUpdate = await Hawk.checkIsNeedForceUpdate(level: updateLevel)
                 if needUpdate {
                     showUpdateAlert = true
                 }

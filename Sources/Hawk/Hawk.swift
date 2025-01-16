@@ -18,7 +18,7 @@ struct Hawk {
      *                   it will be fetched from the App Store API.
      * - Returns: `true` if a force update is needed, otherwise `false`.
      */
-    public func checkIsNeedForceUpdate(
+    static func checkIsNeedForceUpdate(
         level: UpdateLevel,
         localVersion: Version? = nil,
         storeVersion: Version? = nil
@@ -68,7 +68,7 @@ struct Hawk {
      * - Returns: `true` if the store version is high enough above the local version
      *            to warrant an update, otherwise `false`.
      */
-    private func needsForceUpdate(
+    private static func needsForceUpdate(
         local localVersion: Version,
         store storeVersion: Version,
         level: UpdateLevel

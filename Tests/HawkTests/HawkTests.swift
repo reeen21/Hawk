@@ -2,14 +2,6 @@ import XCTest
 @testable import Hawk
 
 final class AppVersionCheckerTest: XCTestCase {
-
-    var hawk: Hawk!
-
-    override func setUp() {
-        super.setUp()
-        hawk = Hawk()
-    }
-
     /**
      * This test checks if the `checkIsNeedForceUpdate` function returns false
      * when both the local and store versions are the same.
@@ -25,7 +17,7 @@ final class AppVersionCheckerTest: XCTestCase {
         let storeVersionMock = Version("1.0.0")
 
         // Act
-        let result = await hawk.checkIsNeedForceUpdate(
+        let result = await Hawk.checkIsNeedForceUpdate(
             level: .patch,
             localVersion: localVersionMock,
             storeVersion: storeVersionMock
@@ -50,7 +42,7 @@ final class AppVersionCheckerTest: XCTestCase {
         let storeVersionMock = Version("1.0.1")
 
         // Act
-        let result = await hawk.checkIsNeedForceUpdate(
+        let result = await Hawk.checkIsNeedForceUpdate(
             level: .patch,
             localVersion: localVersionMock,
             storeVersion: storeVersionMock
@@ -75,7 +67,7 @@ final class AppVersionCheckerTest: XCTestCase {
         let storeVersionMock = Version("1.0.0")
 
         // Act
-        let result = await hawk.checkIsNeedForceUpdate(
+        let result = await Hawk.checkIsNeedForceUpdate(
             level: .patch,
             localVersion: localVersionMock,
             storeVersion: storeVersionMock
@@ -100,7 +92,7 @@ final class AppVersionCheckerTest: XCTestCase {
         let storeVersionMock = Version("1.2.0")
 
         // Act
-        let result = await hawk.checkIsNeedForceUpdate(
+        let result = await Hawk.checkIsNeedForceUpdate(
             level: .minor,
             localVersion: localVersionMock,
             storeVersion: storeVersionMock
@@ -129,7 +121,7 @@ final class AppVersionCheckerTest: XCTestCase {
         let storeVersionMock = Version("1.0.0")
 
         // Act
-        let result = await hawk.checkIsNeedForceUpdate(
+        let result = await Hawk.checkIsNeedForceUpdate(
             level: .minor,
             localVersion: localVersionMock,
             storeVersion: storeVersionMock
@@ -143,7 +135,7 @@ final class AppVersionCheckerTest: XCTestCase {
         let storeVersionMock2 = Version("1.0.0")
 
         // Act
-        let result2 = await hawk.checkIsNeedForceUpdate(
+        let result2 = await Hawk.checkIsNeedForceUpdate(
             level: .minor,
             localVersion: localVersionMock2,
             storeVersion: storeVersionMock2
@@ -168,7 +160,7 @@ final class AppVersionCheckerTest: XCTestCase {
         let storeVersionMock = Version("2.0.0")
 
         // Act
-        let result = await hawk.checkIsNeedForceUpdate(
+        let result = await Hawk.checkIsNeedForceUpdate(
             level: .major,
             localVersion: localVersionMock,
             storeVersion: storeVersionMock
@@ -198,7 +190,7 @@ final class AppVersionCheckerTest: XCTestCase {
         let storeVersionMock = Version("1.0.0")
 
         // Act
-        let result = await hawk.checkIsNeedForceUpdate(
+        let result = await Hawk.checkIsNeedForceUpdate(
             level: .major,
             localVersion: localVersionMock,
             storeVersion: storeVersionMock
@@ -212,7 +204,7 @@ final class AppVersionCheckerTest: XCTestCase {
         let storeVersionMock2 = Version("2.0.0")
 
         // Act
-        let result2 = await hawk.checkIsNeedForceUpdate(
+        let result2 = await Hawk.checkIsNeedForceUpdate(
             level: .major,
             localVersion: localVersionMock2,
             storeVersion: storeVersionMock2
