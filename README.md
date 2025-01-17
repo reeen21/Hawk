@@ -7,9 +7,12 @@ Hawk is a Swift library that detects when a force update is required and, if nec
 - Automatically redirects the user to your app’s page on the App Store.
 - Flexible Version Comparison: Choose the level of comparison (major, minor, or patch) using the UpdateLevel enum.
 
+## Example
+Check out the example application to see Hawk in action. Simply open the `Example-SwiftUI/Example-SwiftUI.xcodeproj` or `Example-UIKit/Example-UIKit.xcodeproj` and run.
+
 ## Requirements
-- iOS 15 or later
-- Swift 5.5 or later
+- iOS 15.0 or later
+- Swift 5.5 or later (This library is also available in Swift6.)
 
 ## Installation
 ### Swift Package Manager  
@@ -68,7 +71,7 @@ import Hawk
 struct ContentView: View {
     var body: some View {
         Text("Hello, World!")
-            .showForceUpdateDialogIfNeeded(level: .major)
+            .showForceUpdateDialogIfNeeded()
     }
 }
 ```
