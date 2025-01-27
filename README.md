@@ -80,6 +80,6 @@ When the view appears, the library checks the local version against the App Stor
 ## License
 Hawk is released under the MIT License. See [LICENSE](https://github.com/reeen21/Hawk/blob/main/LICENSE) for details.
 
---------
-
-Enjoy Hawk?  Issues and pull requests are welcome!  If you find this library helpful, consider giving it a star on GitHub.  
+## Contribute
+Enjoy Hawk?  Issues and pull requests are welcome!  
+If you find this library helpful, consider giving it a star on GitHub.  
