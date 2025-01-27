@@ -1,0 +1,15 @@
+{
+  "originHash" : "c5f299e25a142a88a7c6b480c2012997a3e8ee8911c5414897369e11a4555f44",
+  "pins" : [
+    {
+      "identity" : "hawk",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/reeen21/Hawk.git",
+      "state" : {
+        "revision" : "5c34aeefe23649e5625ae1a4361a92229efc39e1",
+        "version" : "1.0.1"
+      }
+    }
+  ],
+  "version" : 3
+}
