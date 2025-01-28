@@ -77,17 +77,19 @@ struct Hawk {
             return storeVersion.major > localVersion.major
 
         case .minor:
-            if storeVersion.major > localVersion.major {
-                return true
+            if storeVersion.major != localVersion.major {
+                return storeVersion.major > localVersion.major
             }
-            if storeVersion.major == localVersion.major,
-               storeVersion.minor > localVersion.minor {
-                return true
-            }
-            return false
+            return storeVersion.minor > localVersion.minor
 
         case .patch:
-            return storeVersionString.compare(localVersionString) == .orderedDescending
+            if storeVersion.major != localVersion.major {
+                return storeVersion.major > localVersion.major
+            }
+            if storeVersion.minor != localVersion.minor {
+                return storeVersion.minor > localVersion.minor
+            }
+            return storeVersion.patch > localVersion.patch
         }
     }
 }
