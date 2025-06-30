@@ -4,8 +4,7 @@ import SwiftUI
  * A service that manages version checks against the App Store, determining whether
  * a force update is necessary based on a given update level.
  */
-struct Hawk {
-
+public enum Hawk {
     /**
      * Checks if a force update is needed by comparing the local app version to the
      * App Store version or the versions provided explicitly.
@@ -90,6 +89,15 @@ struct Hawk {
                 return storeVersion.minor > localVersion.minor
             }
             return storeVersion.patch > localVersion.patch
+        }
+    }
+
+    @MainActor
+    public static func openAppStore() {
+        if let appId = Bundle.main.object(forInfoDictionaryKey: "AppStoreID") as? String,
+           let url = URL(string: "https://apps.apple.com/jp/app/id\(appId)")
+        {
+            UIApplication.shared.open(url)
         }
     }
 }
