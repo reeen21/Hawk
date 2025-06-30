@@ -4,8 +4,9 @@ Hawk is a Swift library that detects when a force update is required and, if nec
 ## Features
 - Checks the current app version against the App Store version.  
 - Displays a alert to prompt users to update.  
-- Automatically redirects the user to your app’s page on the App Store.
+- Automatically redirects the user to your app's page on the App Store.
 - Flexible Version Comparison: Choose the level of comparison (major, minor, or patch) using the UpdateLevel enum.
+- **Custom Dialog Support**: Create your own custom update dialogs instead of using the default alert.
 
 ## Example
 Check out the example application to see Hawk in action. Simply open the `Example-SwiftUI/Example-SwiftUI.xcodeproj` or `Example-UIKit/Example-UIKit.xcodeproj` and run.
@@ -28,7 +29,7 @@ dependencies: [
 ```
  
 ## Configuration
-Inside your app’s Info.plist, add a key called `AppStoreID` with your app’s App Store ID as the value. For example:
+Inside your app's Info.plist, add a key called `AppStoreID` with your app's App Store ID as the value. For example:
 
 ```
 <key>AppStoreID</key>
@@ -45,6 +46,8 @@ Hawk provides an enum called UpdateLevel for specifying how strictly versions ar
 
 ### UIKit
 In any UIViewController, call the force update method at your preferred timing (e.g., viewWillAppear):
+
+#### Default Alert
 ```swift
 import UIKit
 import Hawk
@@ -59,11 +62,35 @@ class ViewController: UIViewController {
         view.backgroundColor = .green
     }
 }
+```
 
+#### Custom Dialog
+```swift
+import UIKit
+import Hawk
+
+class ViewController: UIViewController {
+    override func viewWillAppear(_ animated: Bool) {
+        showForceUpdateDialogIfNeeded(level: .minor) {
+            let customView = UIView()
+            let button = UIButton(type: .system)
+            button.setTitle("Open App Store", for: .normal)
+            button.addTarget(self, action: #selector(openAppStore), for: .touchUpInside)
+            customView.addSubview(button)
+            return customView
+        }
+    }
+
+    @objc private func openAppStore() {
+        Hawk.openAppStore()
+    }
+}
 ```
 
 ### SwiftUI
 Simply attach the forceUpdateCheck view modifier to any View. For example:
+
+#### Default Alert
 ```swift
 import SwiftUI
 import Hawk
@@ -75,7 +102,31 @@ struct ContentView: View {
     }
 }
 ```
-When the view appears, the library checks the local version against the App Store version. If an update is required, a SwiftUI alert appears prompting the user to update.
+
+#### Custom Dialog
+```swift
+import SwiftUI
+import Hawk
+
+struct ContentView: View {
+    var body: some View {
+        Text("Hello, World!")
+            .showForceUpdateDialogIfNeeded(level: .minor) {
+                VStack {
+                    Text("New version is available")
+                    Button("Open App Store") {
+                        Hawk.openAppStore()
+                    }
+                }
+                .padding()
+                .background(Color.white)
+                .cornerRadius(10)
+            }
+    }
+}
+```
+
+When the view appears, the library checks the local version against the App Store version. If an update is required, either a default alert or your custom dialog appears prompting the user to update.
 
 ## License
 Hawk is released under the MIT License. See [LICENSE](https://github.com/reeen21/Hawk/blob/main/LICENSE) for details.
