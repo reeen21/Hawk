@@ -50,7 +50,7 @@ private struct CustomDialogModifier: ViewModifier {
     }
 }
 
-extension View {
+public extension View {
     /**
      * Checks if the app needs to be force-updated and displays a custom dialog when an update is required.
      * This method allows you to create your own custom update dialog instead of using the default alert.
@@ -76,7 +76,7 @@ extension View {
      * }
      * ```
      */
-    public func showForceUpdateDialogIfNeeded<Content: View>(
+    func showForceUpdateDialogIfNeeded<Content: View>(
         level: UpdateLevel = .minor,
         @ViewBuilder content: () -> Content
     ) -> some View {

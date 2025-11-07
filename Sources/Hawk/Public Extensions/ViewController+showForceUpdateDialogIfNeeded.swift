@@ -1,6 +1,6 @@
 import UIKit
 
-extension UIViewController {
+public extension UIViewController {
 
     /**
      * Checks for a forced update at the specified level (major, minor, patch).
@@ -8,7 +8,7 @@ extension UIViewController {
      *
      * - Parameter level: The update level threshold (default = .minor).
      */
-    public func showForceUpdateDialogIfNeeded(level: UpdateLevel = .minor) {
+    func showForceUpdateDialogIfNeeded(level: UpdateLevel = .minor) {
         // Run an asynchronous task on the main actor so alert presentation
         // happens on the main thread.
         Task { @MainActor in
@@ -44,7 +44,7 @@ extension UIViewController {
      * }
      * ```
      */
-    public func showForceUpdateDialogIfNeeded(
+    func showForceUpdateDialogIfNeeded(
         level: UpdateLevel = .minor,
         customDialog: @escaping () -> UIView
     ) {
