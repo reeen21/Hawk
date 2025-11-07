@@ -34,23 +34,22 @@ private struct CustomDialogModifier: ViewModifier {
      * - Returns: A modified view that performs the force update check with custom dialog.
      */
     func body(content: Content) -> some View {
-        ZStack {
-            if showUpdateAlert {
-                customDialog
-            }
-
-            content
-                .task {
-                    let needUpdate = await Hawk.checkIsNeedForceUpdate(level: updateLevel)
-                    if needUpdate {
-                        showUpdateAlert = true
-                    }
+        content
+            .task {
+                let needUpdate = await Hawk.checkIsNeedForceUpdate(level: updateLevel)
+                if needUpdate {
+                    showUpdateAlert = true
                 }
-        }
+            }
+            .overlay {
+                if showUpdateAlert {
+                    customDialog
+                }
+            }
     }
 }
 
-extension View {
+public extension View {
     /**
      * Checks if the app needs to be force-updated and displays a custom dialog when an update is required.
      * This method allows you to create your own custom update dialog instead of using the default alert.
@@ -76,7 +75,7 @@ extension View {
      * }
      * ```
      */
-    public func showForceUpdateDialogIfNeeded<Content: View>(
+    func showForceUpdateDialogIfNeeded<Content: View>(
         level: UpdateLevel = .minor,
         @ViewBuilder content: () -> Content
     ) -> some View {
@@ -84,6 +83,7 @@ extension View {
             CustomDialogModifier(
                 updateLevel: level,
                 customDialog: AnyView(content())
-            ))
+            )
+        )
     }
 }
